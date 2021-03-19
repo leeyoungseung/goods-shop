@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goods.shop.config.auth.PrincipalDetails;
+import com.goods.shop.dto.AuthDTO;
+import com.goods.shop.dto.response.ApiResponseDTO;
 import com.goods.shop.model.User;
 import com.goods.shop.repository.UserRepository;
+import com.goods.shop.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,26 +22,20 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class AuthController {
 	
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-	private final UserRepository userRepository;
+	private final AuthService authService;
 	
 	@GetMapping("/home")
 	public String home() {
 		return "<h1>home</h1>";
 	}
 	
-	@PostMapping("/join")
-	public String join(
-			@RequestBody User user
-			) {
+	@PostMapping("/signup")
+	public ApiResponseDTO<AuthDTO.ResponseOne> signup (
+			@RequestBody AuthDTO.Create create
+			) throws Exception {
+		System.out.println("AuthController signup");
 		
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-		user.setRoles("ROLE_USER");
-		user.setJoinDate(new Date());
-		
-		userRepository.save(user);
-		
-		return "join complete";
+		return ApiResponseDTO.createOK(new AuthDTO.ResponseOne(authService.createUser(create)));
 	}
 	
 	@GetMapping("/api/v1/user")

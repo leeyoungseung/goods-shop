@@ -14,6 +14,7 @@ import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "user")
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class User {
 
 	@Id
@@ -30,6 +32,10 @@ public class User {
 	private String username;
 	
 	private String password;
+	
+	private String givenName;
+	
+	private String familyName;
 	
 	private String roles;	//USER, ADMIN
 	
@@ -42,5 +48,21 @@ public class User {
 		}
 		return new ArrayList<>();
 	}
+	
+	@Builder
+	private User(String username, String password, String givenName, String familyName) {
+		this.username = username;
+		this.password = password;
+		this.givenName = givenName;
+		this.familyName = familyName;
+	}
+	
+	public User update(String password, String givenName, String familyName) {
+		this.password = password;
+		this.givenName = givenName;
+		this.familyName = familyName;
+		return this;
+	}
+	
 	
 }

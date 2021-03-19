@@ -2,6 +2,7 @@ package com.goods.shop.config.jwt;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 
 import javax.servlet.FilterChain;
@@ -19,12 +20,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goods.shop.config.auth.PrincipalDetails;
+import com.goods.shop.dto.AuthDTO;
+import com.goods.shop.dto.response.ApiResponseDTO;
 import com.goods.shop.model.User;
 
 import lombok.RequiredArgsConstructor;
 
 // login 요청에서 username, password를 전송하면 (POST)
-// UsernamePasswordAuthenticationFilter 가 동작함
+// UsernamePasswordAuthenticationFilter가 동작함
 // UsernamePasswordAuthenticationFilter를 상속해서 커스텀.
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -83,7 +86,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				.withClaim("id", principalDetails.getUser().getId())
 				.withClaim("username", principalDetails.getUser().getUsername())
 				.sign(Algorithm.HMAC512("lee-y"));
-		response.addHeader("Authorization", "Bearer "+jwtToken);
-		
+		//response.addHeader("Authorization", "Bearer "+jwtToken);
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+//	    response.getWriter().write(
+//	            "{\"" + "authorization" + "\":\"" + "Bearer "+jwtToken + "\"}"
+//	    );
+	    
+	    ObjectMapper om = new ObjectMapper();
+	    ApiResponseDTO<AuthDTO.ResponseToken> dto = ApiResponseDTO
+	    		.createOK(new AuthDTO.ResponseToken("Bearer "+jwtToken));
+	    String responseJson = om.writeValueAsString(dto);
+	    PrintWriter out = response.getWriter();
+	    out.print(responseJson);
+	    out.flush();
+	    out.close();
+	    
 	}
 }

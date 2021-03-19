@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.addFilter(corsFilter)
 		.formLogin().disable()
 		.httpBasic().disable()
-		.addFilter(new JwtAuthenticationFilter(authenticationManager()))//AuthenticationManager를 파라미터로 넘겨야한다.
+		.addFilter(new JwtAuthenticationFilter(authenticationManager()))
 		.addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
 		.authorizeRequests()
 		.antMatchers("/api/v1/user/**")

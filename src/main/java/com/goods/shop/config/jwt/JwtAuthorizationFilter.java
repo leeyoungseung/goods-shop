@@ -16,6 +16,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.goods.shop.config.auth.PrincipalDetails;
+import com.goods.shop.exception.NotFoundException;
 import com.goods.shop.model.User;
 import com.goods.shop.repository.UserRepository;
 
@@ -52,7 +53,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		}
 		
 		//JWT 토큰 검증
-		String jwtToken = request.getHeader("Authorization").replace("Bearer ","");
+		String jwtToken = request.getHeader("authorization").replace("Bearer ","");
 		
 		String username = 
 				JWT.require(Algorithm.HMAC512("lee-y")) // sign한 값
@@ -63,7 +64,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		System.out.println("sign : "+ username);
 		// 서명이 정상적인지 확인 
 		if (username != null) {
-			User userEntity = userRepository.findByUsername(username);
+			User userEntity = userRepository.findByUsername(username)
+					.orElseThrow(NotFoundException::new);
 			
 			//Jwt 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
 			PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
