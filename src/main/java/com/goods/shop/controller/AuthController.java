@@ -2,6 +2,8 @@ package com.goods.shop.controller;
 
 import java.util.Date;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,8 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class AuthController {
 	
+	private static final Logger log = LogManager.getLogger(AuthController.class);
+			
 	private final AuthService authService;
 	
 	@GetMapping("/home")
@@ -33,16 +37,18 @@ public class AuthController {
 	public ApiResponseDTO<AuthDTO.ResponseOne> signup (
 			@RequestBody AuthDTO.Create create
 			) throws Exception {
-		System.out.println("AuthController signup");
+		log.info("AuthController signup");
 		
 		return ApiResponseDTO.createOK(new AuthDTO.ResponseOne(authService.createUser(create)));
 	}
 	
 	@GetMapping("/api/v1/user")
-	public String user(Authentication authentication) {
+	public ApiResponseDTO<AuthDTO.ResponseOne> user(Authentication authentication) {
 		PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-		System.out.println("authentication : "+principalDetails.getUsername());
-		return "user";
+		log.info("authentication : "+principalDetails.getUsername());
+		User user = principalDetails.getUser();
+		
+		return ApiResponseDTO.createOK(new AuthDTO.ResponseOne(AuthDTO.Response.of(user)));
 	}
 
 	@GetMapping("/api/v1/manager")
