@@ -13,7 +13,7 @@ public class ApiResponseDTO<T> {
     public static final ApiResponseDTO<String> DEFAULT_OK = new ApiResponseDTO<>(ApiResponseCode.OK);
     public static final ApiResponseDTO<String> DEFAULT_UNAUTHORIZED = new ApiResponseDTO<>(ApiResponseCode.UNAUTHORIZED);
 
-    private ApiResponseCode code;
+    private Integer status;
     private String message;
     private T data;
     
@@ -27,19 +27,23 @@ public class ApiResponseDTO<T> {
     }
 
     private ApiResponseDTO(ApiResponseCode code, String message, T data) {
-        this.code = code;
+        this.status = code.getStatus();
         this.message = message;
         this.data = data;
     }
 
     private ApiResponseDTO(ApiResponseCode code, ApiException e) {
-        this.code = code;
+        this.status = code.getStatus();
         this.message = e.getMessage();
     }
 
-    private void bindStatus(ApiResponseCode status) {
-        this.code = status;
-        this.message = status.getMessage();
+    private void bindStatus(ApiResponseCode code) {
+        this.status = code.getStatus();
+        this.message = code.getMessage();
+    }
+    
+    public static <T> ApiResponseDTO<T> createOK() {
+        return new ApiResponseDTO<>(ApiResponseCode.OK);
     }
     
     public static <T> ApiResponseDTO<T> createOK(T data) {
