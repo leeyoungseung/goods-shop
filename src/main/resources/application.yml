@@ -6,6 +6,12 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+
+property:
+  app:
+    static-path: src/main/resources/static/
+    upload-path: uploads
+ 
       
 spring:
   datasource:
@@ -20,3 +26,10 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true 
+    
+  servlet:
+    multipart:
+      enabled: true 
+      max-file-size: 50MB
+      max-request-size: 50MB
+      
