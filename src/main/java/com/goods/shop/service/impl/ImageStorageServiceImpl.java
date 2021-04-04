@@ -77,6 +77,29 @@ public class ImageStorageServiceImpl implements FilesStorageService {
 	}
 	
 	@Override
+	public String saveOne(MultipartFile file) {
+		try {
+			List<String> uploadedFiles = new ArrayList<String>();
+			log.info("Resource Path : ["+ staticPath+uploadPath+"]");
+			String uniqImgeFileDir = staticPath+uploadPath;
+			Path root = Paths.get(uniqImgeFileDir);
+			String fileName = 
+					new SimpleDateFormat("yyyyMMddHHmmss").format(new Date())
+					   + "_"+
+					file.getOriginalFilename();
+
+			Files.copy(file.getInputStream(), root.resolve(fileName));
+
+			return fileName;
+			
+		} catch (Exception e) {
+			throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+		}
+	}
+	
+	
+	
+	@Override
 	public Resource load(String filename) {
 		
 		log.info("Load File :"+filename);

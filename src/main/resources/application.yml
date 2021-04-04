@@ -11,6 +11,7 @@ property:
   app:
     static-path: src/main/resources/static/
     upload-path: uploads
+    record-separator: ","
  
       
 spring:

@@ -18,4 +18,6 @@ public interface FilesStorageService {
 
 	  public Stream<Path> loadAll();
 
+	String saveOne(MultipartFile file);
+
 }
