@@ -26,6 +26,8 @@ public class ItemDTO {
 		
 		private Integer price;
 		
+		private Integer saleStatus;
+		
 		private String [] images;
 		
 		private String createUser;
@@ -44,29 +46,32 @@ public class ItemDTO {
 		private String itemDescription;
 		private String makerCode;
 		private Integer price;
+		private Integer saleStatus;
 		private String [] images;
 		private Integer sold;
 		
 		@Builder
 		private Response(Long itemId, String itemName, String itemDescription, String makerCode, Integer price,
-				String[] images, Integer sold) {
+				Integer saleStatus, String[] images, Integer sold) {
 			this.itemId = itemId;
 			this.itemName = itemName;
 			this.itemDescription = itemDescription;
 			this.makerCode = makerCode;
 			this.price = price;
+			this.saleStatus = saleStatus;
 			this.images = images;
 			this.sold = sold;
 		}
 		
 		public static Response of (Long itemId, String itemName, String itemDescription, String makerCode, Integer price,
-				String[] images, Integer sold) {
+				Integer saleStatus, String[] images, Integer sold) {
 			return Response.builder()
 					.itemId(itemId)
 					.itemName(itemName)
 					.itemDescription(itemDescription)
 					.makerCode(makerCode)
 					.price(price)
+					.saleStatus(saleStatus)
 					.images(images)
 					.sold(sold)
 					.build();

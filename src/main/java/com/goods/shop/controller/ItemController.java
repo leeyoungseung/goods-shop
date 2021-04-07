@@ -77,6 +77,8 @@ public class ItemController {
         header.add("Expires", "0");
 
 
+        log.info("preImage response Data : "+resource);
+        
         return ResponseEntity.ok()
                 .headers(header)
                 .contentLength(resource.getFile().length())
@@ -94,5 +96,14 @@ public class ItemController {
 				);
 	}
 	
-	
+	@GetMapping("/{itemId}")
+	public ApiResponseDTO<ItemDTO.ResponseOne> getItem(
+			@PathVariable("itemId") Long itemId
+			) {
+		Response response = itemService.getItem(itemId);
+		
+		return ApiResponseDTO.createOK(
+				new ItemDTO.ResponseOne(response)
+				);
+	}
 }

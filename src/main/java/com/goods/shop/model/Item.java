@@ -1,14 +1,14 @@
 package com.goods.shop.model;
 
-import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,7 +19,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "item")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Item {
+@EntityListeners(AuditingEntityListener.class)
+public class Item extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +34,7 @@ public class Item {
 	
 	private Integer price;
 	
-	private boolean saleStatus;
+	private Integer saleStatus;
 	
 	private String images;
 	
@@ -41,19 +42,13 @@ public class Item {
 	
 	private String createUser;
 	
-	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Tokyo")
-	private Date createDate;
-	
 	private String updateUser;
-	
-	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Tokyo")
-	private Date updateDate;
 	
 	@Builder
 	private Item(
 			String itemName, String itemDescription, String makerCode,
-			Integer price, boolean saleStatus, String images,
-			Integer sold) {
+			Integer price, Integer saleStatus, String images,
+			Integer sold , String createUser) {
 		this.itemName = itemName;
 		this.itemDescription = itemDescription;
 		this.makerCode = makerCode;
@@ -61,12 +56,13 @@ public class Item {
 		this.saleStatus = saleStatus;
 		this.images = images;
 		this.sold = sold;
+		this.createUser = createUser;
 	}
 	
 	
 	public Item update(
 			String itemName, String itemDescription, String makerCode,
-			Integer price, boolean saleStatus, String images,
+			Integer price, Integer saleStatus, String images,
 			Integer sold) {
 		
 		this.itemName = itemName;
