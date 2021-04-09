@@ -38,6 +38,31 @@ public class ItemDTO {
 		
 	}
 	
+	@Setter
+	@Getter
+	public static class Update {
+		private Long itemId;
+		
+		private String itemName;
+		
+		private String itemDescription;
+		
+		private String makerCode;
+		
+		private Integer price;
+		
+		private Integer saleStatus;
+		
+		private String [] images;
+		
+		private String updateUser;
+		
+		public Update toEntity() {
+			return this;
+		}
+		
+	}
+	
 	
 	@Getter
 	public static class Response {

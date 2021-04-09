@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -106,4 +108,31 @@ public class ItemController {
 				new ItemDTO.ResponseOne(response)
 				);
 	}
+	
+	@PutMapping("/{itemId}")
+	public ApiResponseDTO<ItemDTO.ResponseOne> updateItem(
+			@PathVariable("itemId") Long itemId,
+			@RequestBody ItemDTO.Update update
+			) {
+		Response response = itemService.updateItem(itemId, update);
+		
+		
+		return ApiResponseDTO.createOK(
+				new ItemDTO.ResponseOne(response)
+				);
+	}
+	
+	
+	@DeleteMapping("/{itemId}")
+	public ApiResponseDTO<String> deleteItem(
+			@PathVariable("itemId") Long itemId
+		) throws IOException {
+		
+		log.info("Delete ItemId : ["+itemId+"]");
+		
+		String message = itemService.deleteItem(itemId);
+		
+		return ApiResponseDTO.createOK(message);
+	}
+	
 }
