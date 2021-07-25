@@ -33,14 +33,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/adm/items")
-public class AdmimItemController {
+public class AdminItemController {
 
-	private static final Logger log = LogManager.getLogger(AdmimItemController.class);
+	private static final Logger log = LogManager.getLogger(AdminItemController.class);
 	
 	private final ImageStorageServiceImpl imageStorageService;
 	
 	private final AdminItemService itemService;
 	
+	
+	/**
+	 * 상품 이미지 경로 리스트 가져오기
+	 * @param files
+	 * @return
+	 * @throws IOException
+	 */
 	@PostMapping("/upload-images")
 	public ApiResponseDTO<List<String>> uploadImages(
 			@RequestParam(value = "files") MultipartFile [] files
@@ -53,6 +60,13 @@ public class AdmimItemController {
 		return ApiResponseDTO.createOK(uploadedFiles);
 	}
 	
+	
+	/**
+	 * 상품 이미지 업로드
+	 * @param files
+	 * @return
+	 * @throws IOException
+	 */
 	@PostMapping("/upload-image")
 	public ApiResponseDTO<String> uploadImage(
 			@RequestParam(value = "file") MultipartFile [] files
@@ -65,6 +79,13 @@ public class AdmimItemController {
 		return ApiResponseDTO.createOK(uploadedFile);
 	}
 	
+	
+	/**
+	 * 섬네일 이미지 가져오기
+	 * @param image
+	 * @return
+	 * @throws IOException
+	 */
 	@GetMapping("/preImage/{image}")
 	@ResponseBody
 	public ResponseEntity<Resource> preImage(@PathVariable("image") String image) throws IOException {
@@ -86,6 +107,7 @@ public class AdmimItemController {
                 .body(resource);
     }
 	
+	
 	/**
 	 * 상품 리스트 가져오기 
 	 * @return
@@ -96,6 +118,7 @@ public class AdmimItemController {
 		
 		return ResponseEntity.ok(resList);
 	}
+	
 	
 	/**
 	 * 상품 데이터 생성
@@ -111,6 +134,11 @@ public class AdmimItemController {
 	}
 	
 	
+	/**
+	 * 상품 상세 데이터 가져오기
+	 * @param itemId
+	 * @return
+	 */
 	@GetMapping("/{itemId}")
 	public ResponseEntity<ItemDTO> getItem(
 			@PathVariable("itemId") Long itemId
@@ -120,6 +148,13 @@ public class AdmimItemController {
 		return ResponseEntity.ok(res);
 	}
 	
+	
+	/**
+	 * 상품 데이터 갱신
+	 * @param itemId
+	 * @param update
+	 * @return
+	 */
 	@PutMapping("/{itemId}")
 	public ResponseEntity<ItemDTO> updateItem(
 			@PathVariable("itemId") Long itemId,
@@ -132,10 +167,16 @@ public class AdmimItemController {
 	}
 	
 	
+	/**
+	 * 상품 데이터 삭제
+	 * @param itemId
+	 * @return
+	 * @throws IOException
+	 */
 	@DeleteMapping("/{itemId}")
 	public ResponseEntity<String> deleteItem(
 			@PathVariable("itemId") Long itemId
-		) throws IOException {
+		) {
 		
 		log.info("Delete ItemId : ["+itemId+"]");
 		

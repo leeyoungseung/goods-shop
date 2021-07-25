@@ -31,7 +31,11 @@ public class AdminItemService {
 	private String recodeSeparator;
 	
 	
-	
+	/**
+	 * 상품 데이터 생성
+	 * @param create
+	 * @return
+	 */
 	public ItemDTO createItem(ItemDTO create) {	
 		// 1. DTO에서 데이터 가져와 가공하기 (이미지 배열) 
 		
@@ -65,6 +69,10 @@ public class AdminItemService {
 	}
 
 	
+	/**
+	 * 상품 데이터 리스트 가져오기 
+	 * @return
+	 */
 	public List<ItemDTO> getItems() {	
 		List<Item> itemList = itemRepository.findAll();
 		List<ItemDTO> resList = new ArrayList<ItemDTO>();
@@ -78,6 +86,11 @@ public class AdminItemService {
 	}
 	
 	
+	/**
+	 * 상품 데이터 한개 가져오기
+	 * @param itemId
+	 * @return
+	 */
 	public ItemDTO getItem(Long itemId) {	
 		log.info("Requested Param itemId : "+itemId);
 		Item item = itemRepository.findById(itemId)
@@ -88,6 +101,12 @@ public class AdminItemService {
 		return mappingDTO(item);
 	}
 
+	/**
+	 * 상품 데이터 갱신
+	 * @param itemId
+	 * @param update
+	 * @return
+	 */
 	@Transactional
 	public ItemDTO updateItem(Long itemId, ItemDTO update) {
 		// 1. 전송된 파라미터가 DB에 존재하는지 확인 
@@ -114,6 +133,12 @@ public class AdminItemService {
 		return mappingDTO(item);
 	}
 
+	
+	/**
+	 * 상품 데이터 삭제
+	 * @param itemId
+	 * @return
+	 */
 	@Transactional
 	public String deleteItem(Long itemId) {
 		
@@ -122,6 +147,12 @@ public class AdminItemService {
 		return (res == 1) ? "Delete Success itemId : [" + itemId + "]" : "Delete Failure itemId : [" + itemId + "]";
 	}
 	
+	
+	/**
+	 * DTO에 엔티티 데이터 매핑
+	 * @param item
+	 * @return
+	 */
 	private ItemDTO mappingDTO(Item item) {
 		ItemDTO dto = new ItemDTO();
 		dto.setItemId(item.getItemId());

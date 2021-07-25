@@ -48,7 +48,7 @@ public class Item extends BaseTimeEntity {
 	private Item(
 			String itemName, String itemDescription, String makerCode,
 			Integer price, Integer saleStatus, String images,
-			Integer sold , String createUser) {
+			Integer sold , String createUser, String updateUser) {
 		this.itemName = itemName;
 		this.itemDescription = itemDescription;
 		this.makerCode = makerCode;
@@ -57,6 +57,7 @@ public class Item extends BaseTimeEntity {
 		this.images = images;
 		this.sold = sold;
 		this.createUser = createUser;
+		this.updateUser = updateUser;
 	}
 	
 	
