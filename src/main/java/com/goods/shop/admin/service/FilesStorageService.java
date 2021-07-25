@@ -1,4 +1,4 @@
-package com.goods.shop.service;
+package com.goods.shop.admin.service;
 
 import java.nio.file.Path;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.goods.shop.service.impl;
+package com.goods.shop.admin.service.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.goods.shop.service.FilesStorageService;
+import com.goods.shop.admin.service.FilesStorageService;
 
 @Service
 public class ImageStorageServiceImpl implements FilesStorageService {

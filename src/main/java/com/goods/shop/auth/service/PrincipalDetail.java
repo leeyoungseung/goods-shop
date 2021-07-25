@@ -1,4 +1,4 @@
-package com.goods.shop.config.auth;
+package com.goods.shop.auth.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,14 +11,14 @@ import com.goods.shop.model.User;
 import lombok.Data;
 
 @Data
-public class PrincipalDetails implements UserDetails {
+public class PrincipalDetail implements UserDetails {
 
 	private User user;
 	
-	public PrincipalDetails(User user) {
+	public PrincipalDetail(User user) {
 		this.user = user;
 	}
-
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
@@ -30,13 +30,11 @@ public class PrincipalDetails implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return user.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		// TODO Auto-generated method stub
 		return user.getUsername();
 	}
 
@@ -63,5 +61,8 @@ public class PrincipalDetails implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
+	
+	
+	
+	
 }

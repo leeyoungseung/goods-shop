@@ -1,6 +1,7 @@
 package com.goods.shop.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -33,14 +34,21 @@ public class User {
 	
 	private String password;
 	
+	private String roles;	//USER, ADMIN
+	
+	private boolean accountNonExpired;
+	private boolean accountNonLocked;
+	private boolean credentialsNonExpired;
+	private boolean enabled;
+	private String refreshToken;
+	
 	private String givenName;
 	
 	private String familyName;
 	
-	private String roles;	//USER, ADMIN
 	
-	//@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date joinDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDateTime joinDate;
 	
 	public List<String> getRoleList() {
 		if(this.roles.length() > 0) {

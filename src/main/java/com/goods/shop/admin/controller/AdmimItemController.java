@@ -1,12 +1,12 @@
-package com.goods.shop.controller;
+package com.goods.shop.admin.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -22,24 +22,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.goods.shop.dto.ItemDTO;
-import com.goods.shop.dto.ItemDTO.Response;
-import com.goods.shop.dto.response.ApiResponseDTO;
-import com.goods.shop.service.ItemService;
-import com.goods.shop.service.impl.ImageStorageServiceImpl;
+import com.goods.shop.admin.dto.ItemDTO;
+import com.goods.shop.admin.dto.response.ApiResponseDTO;
+import com.goods.shop.admin.service.AdminItemService;
+import com.goods.shop.admin.service.impl.ImageStorageServiceImpl;
+import com.goods.shop.model.Item;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/items")
-public class ItemController {
+@RequestMapping("/api/v1/adm/items")
+public class AdmimItemController {
 
-	private static final Logger log = LogManager.getLogger(ItemController.class);
+	private static final Logger log = LogManager.getLogger(AdmimItemController.class);
 	
 	private final ImageStorageServiceImpl imageStorageService;
 	
-	private final ItemService itemService;
+	private final AdminItemService itemService;
 	
 	@PostMapping("/upload-images")
 	public ApiResponseDTO<List<String>> uploadImages(
@@ -80,51 +80,60 @@ public class ItemController {
 
 
         log.info("preImage response Data : "+resource);
-        
         return ResponseEntity.ok()
                 .headers(header)
                 .contentLength(resource.getFile().length())
                 .body(resource);
     }
 	
-	@PostMapping
-	public ApiResponseDTO<ItemDTO.ResponseOne> createItem(
-			@RequestBody ItemDTO.Create create
-			) {
-		Response response = itemService.createItem(create);
+	/**
+	 * 상품 리스트 가져오기 
+	 * @return
+	 */
+	@GetMapping
+	public ResponseEntity<List<ItemDTO>> getItems() {
+		List<ItemDTO> resList = itemService.getItems();
 		
-		return ApiResponseDTO.createOK(
-				new ItemDTO.ResponseOne(response)
-				);
+		return ResponseEntity.ok(resList);
 	}
 	
+	/**
+	 * 상품 데이터 생성
+	 * @param create
+	 * @return
+	 */
+	@PostMapping
+	public ResponseEntity<ItemDTO> createItem(
+			@RequestBody ItemDTO create
+			) {
+		
+		return ResponseEntity.ok(itemService.createItem(create));
+	}
+	
+	
 	@GetMapping("/{itemId}")
-	public ApiResponseDTO<ItemDTO.ResponseOne> getItem(
+	public ResponseEntity<ItemDTO> getItem(
 			@PathVariable("itemId") Long itemId
 			) {
-		Response response = itemService.getItem(itemId);
+		ItemDTO res = itemService.getItem(itemId);
 		
-		return ApiResponseDTO.createOK(
-				new ItemDTO.ResponseOne(response)
-				);
+		return ResponseEntity.ok(res);
 	}
 	
 	@PutMapping("/{itemId}")
-	public ApiResponseDTO<ItemDTO.ResponseOne> updateItem(
+	public ResponseEntity<ItemDTO> updateItem(
 			@PathVariable("itemId") Long itemId,
-			@RequestBody ItemDTO.Update update
+			@RequestBody ItemDTO update
 			) {
-		Response response = itemService.updateItem(itemId, update);
+		ItemDTO res = itemService.updateItem(itemId, update);
 		
 		
-		return ApiResponseDTO.createOK(
-				new ItemDTO.ResponseOne(response)
-				);
+		return ResponseEntity.ok(res);
 	}
 	
 	
 	@DeleteMapping("/{itemId}")
-	public ApiResponseDTO<String> deleteItem(
+	public ResponseEntity<String> deleteItem(
 			@PathVariable("itemId") Long itemId
 		) throws IOException {
 		
@@ -132,7 +141,7 @@ public class ItemController {
 		
 		String message = itemService.deleteItem(itemId);
 		
-		return ApiResponseDTO.createOK(message);
+		return ResponseEntity.ok(message);
 	}
 	
 }

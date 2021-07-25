@@ -1,4 +1,4 @@
-package com.goods.shop.dto.response;
+package com.goods.shop.admin.dto.response;
 
 import com.goods.shop.exception.ApiException;
 
@@ -15,21 +15,21 @@ public class ApiResponseDTO<T> {
 
     private Integer status;
     private String message;
-    private T data;
+    private T result;
     
     private ApiResponseDTO(ApiResponseCode status) {
         this.bindStatus(status);
     }
 
-    private ApiResponseDTO(ApiResponseCode status, T data) {
+    private ApiResponseDTO(ApiResponseCode status, T result) {
         this.bindStatus(status);
-        this.data = data;
+        this.result = result;
     }
 
-    private ApiResponseDTO(ApiResponseCode code, String message, T data) {
+    private ApiResponseDTO(ApiResponseCode code, String message, T result) {
         this.status = code.getStatus();
         this.message = message;
-        this.data = data;
+        this.result = result;
     }
 
     private ApiResponseDTO(ApiResponseCode code, ApiException e) {
@@ -46,8 +46,8 @@ public class ApiResponseDTO<T> {
         return new ApiResponseDTO<>(ApiResponseCode.OK);
     }
     
-    public static <T> ApiResponseDTO<T> createOK(T data) {
-        return new ApiResponseDTO<>(ApiResponseCode.OK, data);
+    public static <T> ApiResponseDTO<T> createOK(T result) {
+        return new ApiResponseDTO<>(ApiResponseCode.OK, result);
     }
 
     public static ApiResponseDTO<String> createException(ApiException e) {
@@ -58,8 +58,8 @@ public class ApiResponseDTO<T> {
         return new ApiResponseDTO<>(code, message, "");
     }
 
-    public static <T> ApiResponseDTO<T> createException(ApiResponseCode code, T data) {
-        return new ApiResponseDTO<>(code, data);
+    public static <T> ApiResponseDTO<T> createException(ApiResponseCode code, T result) {
+        return new ApiResponseDTO<>(code, result);
     }
 
 }

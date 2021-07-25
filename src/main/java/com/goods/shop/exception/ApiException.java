@@ -1,6 +1,6 @@
 package com.goods.shop.exception;
 
-import com.goods.shop.dto.response.ApiResponseCode;
+import com.goods.shop.admin.dto.response.ApiResponseCode;
 
 import lombok.Getter;
 

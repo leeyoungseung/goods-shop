@@ -1,4 +1,4 @@
-package com.goods.shop.dto.response;
+package com.goods.shop.admin.dto.response;
 
 public interface ResponseEnumType {
     String getId();
