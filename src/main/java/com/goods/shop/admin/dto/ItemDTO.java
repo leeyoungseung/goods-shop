@@ -13,6 +13,8 @@ public class ItemDTO {
 	
 	private String itemDescription;
 	
+	private String categoryCode;
+	
 	private String makerCode;
 	
 	private Integer price;

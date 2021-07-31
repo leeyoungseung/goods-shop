@@ -5,7 +5,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -16,8 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Data
-@Entity
-@Table(name = "item")
+@Entity(name = "stock")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
 public class Stock extends BaseTimeEntity {

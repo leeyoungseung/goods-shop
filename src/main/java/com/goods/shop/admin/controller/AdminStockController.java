@@ -70,7 +70,7 @@ public class AdminStockController {
 	 * 재고 상세 데이터 가져오기
 	 * @return
 	 */
-    @GetMapping
+    @GetMapping("/{stockId}")
 	public ResponseEntity<StockDTO> getStock(
 			@PathVariable("stockId") Long stockId
 			) {

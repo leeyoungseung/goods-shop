@@ -50,6 +50,7 @@ public class AdminItemService {
 		Item item = Item.builder()
 				.itemName(create.getItemName())
 				.itemDescription(create.getItemDescription())
+				.categoryCode(create.getCategoryCode())
 				.price(create.getPrice())
 				.makerCode(create.getMakerCode())
 				.saleStatus(create.getSaleStatus())
@@ -119,6 +120,7 @@ public class AdminItemService {
 		// 2. 전송된 파라미터로 레코드 갱신
 		entity.update(update.getItemName(),
 				update.getItemDescription(),
+				update.getCategoryCode(),
 				update.getMakerCode(),
 				update.getPrice(),
 				update.getSaleStatus(),
@@ -158,6 +160,7 @@ public class AdminItemService {
 		dto.setItemId(item.getItemId());
 		dto.setItemName(item.getItemName());
 		dto.setItemDescription(item.getItemDescription());
+		dto.setCategoryCode(item.getCategoryCode());
 		dto.setMakerCode(item.getMakerCode());
 		dto.setPrice(item.getPrice());
 		dto.setSaleStatus(item.getSaleStatus());
