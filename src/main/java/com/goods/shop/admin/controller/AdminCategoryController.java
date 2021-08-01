@@ -1,6 +1,7 @@
 package com.goods.shop.admin.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.goods.shop.admin.dto.CategoryDTO;
@@ -27,6 +29,26 @@ public class AdminCategoryController {
 	private static final Logger log = LogManager.getLogger(AdminCategoryController.class);
 	
 	private final AdminCategoryService categoryService;
+	
+	
+	
+	/**
+	 * 카테고리 검색
+	 * 
+	 * @return
+	 */
+	@GetMapping("/search")
+	public ResponseEntity<List<CategoryDTO>> searchCategories(
+			@RequestParam(required = false) Map searchParams
+			) {
+		log.info("searchCategories searchParam="+searchParams);
+		
+		if (searchParams.isEmpty()) 
+			return ResponseEntity.ok(categoryService.getCategories());
+		
+		return ResponseEntity.ok(categoryService.searchCategories(searchParams));
+	}
+	
 	
 	/**
 	 * 모든 카테고리 데이터 가져오기

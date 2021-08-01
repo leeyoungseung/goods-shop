@@ -5,11 +5,12 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 
 import com.goods.shop.model.Category;
 
-public interface CategoryRepository extends JpaRepository <Category, Long>{
+public interface CategoryRepository extends JpaRepository <Category, Long> , QuerydslPredicateExecutor<Category> {
 
 	Long deleteByCategoryId(Long categoryId);
 

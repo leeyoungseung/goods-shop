@@ -2,6 +2,7 @@ package com.goods.shop.admin.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +16,7 @@ import com.goods.shop.admin.service.category.CategoryLogic;
 import com.goods.shop.exception.NotFoundException;
 import com.goods.shop.model.Category;
 import com.goods.shop.repository.CategoryRepository;
+import com.goods.shop.repository.predicate.CategoryPredicate;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +27,26 @@ public class AdminCategoryService {
 	private static final Logger log = LogManager.getLogger(AdminCategoryService.class);
 	
 	private final CategoryRepository categoryRepository;
+	
+	
+	/**
+	 * 카테고리 검색
+	 * 
+	 * @param searchParam
+	 * @return
+	 */
+	public List<CategoryDTO> searchCategories(Map searchParams) {
+		// 1. 파라미터에 따라 다른 SQL을 작성하도록 동적으로 Where 조건을 추가
+		// 2. 검색한 결과를 리턴한다.
+		List<Category> categoryList = (List<Category>) categoryRepository.findAll(CategoryPredicate.search(searchParams));
+		List<CategoryDTO> resList = new ArrayList<CategoryDTO>();
+		
+		categoryList.forEach((category) -> {
+			resList.add(mappingDTO(category));
+		});
+		
+		return resList;
+	}
 	
 	
 	/**
