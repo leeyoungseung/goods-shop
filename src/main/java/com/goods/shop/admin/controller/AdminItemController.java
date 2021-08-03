@@ -3,6 +3,7 @@ package com.goods.shop.admin.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
@@ -40,6 +41,25 @@ public class AdminItemController {
 	private final ImageStorageServiceImpl imageStorageService;
 	
 	private final AdminItemService itemService;
+	
+	
+	/**
+	 * 상품 검색
+	 * 
+	 * @param searchParams
+	 * @return
+	 */
+	@GetMapping("/search")
+	public ResponseEntity<List<ItemDTO>> searchItems(
+			@RequestParam(required = false) Map searchParams
+			) {
+		log.info("searchItems searchParams="+searchParams);
+		
+		if (searchParams.isEmpty())
+			return ResponseEntity.ok(itemService.getItems());
+		
+		return ResponseEntity.ok(itemService.searchItems(searchParams));
+	}
 	
 	
 	/**

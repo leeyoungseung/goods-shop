@@ -2,6 +2,7 @@ package com.goods.shop.admin.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +14,7 @@ import com.goods.shop.admin.dto.ItemDTO;
 import com.goods.shop.exception.NotFoundException;
 import com.goods.shop.model.Item;
 import com.goods.shop.repository.ItemRepository;
+import com.goods.shop.repository.predicate.ItemPredicate;
 import com.goods.shop.utils.TextUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,23 @@ public class AdminItemService {
 	@Value("${property.app.record-separator}")
 	private String recodeSeparator;
 	
+	
+	/**
+	 * 상품 데이터 검색
+	 * 
+	 * @param searchParams
+	 * @return
+	 */
+	public List<ItemDTO> searchItems(Map searchParams) {
+		List<Item> itemList = (List<Item>) itemRepository.findAll(ItemPredicate.search(searchParams));
+		List<ItemDTO> resList = new ArrayList<ItemDTO>();
+		
+		itemList.forEach((item) -> {
+			resList.add(mappingDTO(item));
+		});
+		
+		return resList;		
+	}
 	
 	/**
 	 * 상품 데이터 생성
