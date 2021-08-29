@@ -6,11 +6,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,13 +24,14 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity(name = "user")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class User {
+@EntityListeners(AuditingEntityListener.class)
+public class User extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String username;
+	private String emailId;
 	
 	private String password;
 	
@@ -43,7 +48,7 @@ public class User {
 	private String familyName;
 	
 	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd", timezone="Asia/Tokyo")
 	private LocalDateTime joinDate;
 	
 	public List<String> getRoleList() {
@@ -54,12 +59,13 @@ public class User {
 	}
 	
 	@Builder
-	private User(String username, String password, String givenName, String familyName) {
-		this.username = username;
+	private User(String emailId, String password, String givenName, String familyName) {
+		this.emailId = emailId;
 		this.password = password;
 		this.givenName = givenName;
 		this.familyName = familyName;
 	}
+	
 	
 	public User update(String password, String givenName, String familyName) {
 		this.password = password;

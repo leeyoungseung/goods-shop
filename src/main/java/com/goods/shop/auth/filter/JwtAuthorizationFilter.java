@@ -49,7 +49,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 			System.out.println(jwtUtil.getUsernameFromAccessToken(jwtToken));
 
 			if (StringUtils.hasText(jwtToken) && jwtUtil.validateToken(jwtToken)) {
-				Optional<User> data = userRepository.findByUsername(jwtUtil.getUsernameFromAccessToken(jwtToken));
+				Optional<User> data = userRepository.findByEmailId(jwtUtil.getUsernameFromAccessToken(jwtToken));
 				PrincipalDetail principalDetail = new PrincipalDetail(data.get());
 
 				Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetail, null,

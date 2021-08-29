@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			
 			// (2) 유저가 있는지 확인
 			UsernamePasswordAuthenticationToken authenticationToken = 
-					new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+					new UsernamePasswordAuthenticationToken(user.getEmailId(), user.getPassword());
 			
 			Authentication authentication = 
 					authenticationManager.authenticate(authenticationToken);
@@ -85,7 +85,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		String refreshToken = jwtUtil.generateRefreshToken(principalDetail);
 		
 		// (2) Refresh-Token을 DB에 저장하기
-		Optional<User> userOptional = userRepository.findByUsername(principalDetail.getUser().getUsername());
+		Optional<User> userOptional = userRepository.findByEmailId(principalDetail.getUser().getEmailId());
 		User user = userOptional.get();
 		user.setRefreshToken(refreshToken);
 		userRepository.save(user);
